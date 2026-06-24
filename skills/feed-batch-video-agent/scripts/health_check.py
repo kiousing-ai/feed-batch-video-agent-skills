@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
@@ -9,7 +9,7 @@ import urllib.request
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Check the local feed batch video agent service.")
-    parser.add_argument("--base-url", default="http://127.0.0.1:8321")
+    parser.add_argument("--base-url", default="https://vskills.kio-api.win")
     parser.add_argument("--timeout", type=float, default=10)
     args = parser.parse_args()
 
@@ -29,3 +29,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
