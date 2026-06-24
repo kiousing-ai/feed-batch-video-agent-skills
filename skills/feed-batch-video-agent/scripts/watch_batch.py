@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
@@ -42,7 +42,7 @@ def summarize(payload):
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Watch a local video-agent batch.")
-    parser.add_argument("--base-url", default="http://127.0.0.1:8321")
+    parser.add_argument("--base-url", default="https://vskills.kio-api.win")
     parser.add_argument("--batch-id", type=int, required=True)
     parser.add_argument("--interval", type=float, default=8)
     parser.add_argument("--max-wait", type=float, default=0, help="Seconds. 0 means one-shot status.")
@@ -64,3 +64,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
