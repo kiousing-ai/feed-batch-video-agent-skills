@@ -26,12 +26,15 @@ Returns an HTML preview page with editable `<textarea name="prompts">` entries. 
 
 Creates a batch and lets the service rewrite prompts internally.
 
+In skill mode, avoid this endpoint unless the user explicitly wants backend LLM rewriting. Prefer `/batches/from-prompts`.
+
 Form fields:
 
 - `source_prompt`
 - `requested_count`
 - `aspect_ratio`
 - `logo_path`
+- optional `api_key`: user's KVideo API key for this batch
 - optional `overlay_position`
 - optional `overlay_width`
 - optional `overlay_margin_x`
@@ -49,9 +52,13 @@ Form fields:
 - `aspect_ratio`
 - repeated `prompts`
 - `logo_path`
+- optional `api_key`: user's KVideo API key for this batch. Prefer this for public/shared deployments.
+- optional `dry_run`: `true` creates batch/task records without submitting video generation.
 - optional logo overlay controls
 
 Returns a redirect to `/batches/{batch_id}`.
+
+In skill mode, prefer this endpoint because the calling agent rewrites prompts itself.
 
 `GET /api/batches/{batch_id}`
 
