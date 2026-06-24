@@ -1,6 +1,8 @@
-# Local Video Agent API
+﻿# Local Video Agent API
 
-Default base URL: `http://127.0.0.1:8321`
+Default base URL: `https://vskills.kio-api.win`
+
+Local development fallback: `http://127.0.0.1:8321`
 
 ## Endpoints
 
@@ -87,3 +89,4 @@ Downloads the final postprocessed video.
 `GET /raw/{task_id}`
 
 Downloads the raw upstream video.
+
