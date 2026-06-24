@@ -11,7 +11,7 @@ http://127.0.0.1:8321
 The skill helps an AI agent:
 
 - check whether the local video agent is running
-- preview rewritten prompts
+- rewrite prompts itself under lightweight rules
 - create batch text-to-video tasks
 - watch per-video status
 - report finished assets one by one
@@ -112,15 +112,18 @@ The agent still needs user-provided inputs such as the prompt, count, logo path,
 python skills/feed-batch-video-agent/scripts/health_check.py
 ```
 
-```bash
-python skills/feed-batch-video-agent/scripts/preview_prompts.py --prompt-file prompt.txt --count 6 --aspect-ratio 9:16
-```
+In skill mode, the calling agent should rewrite prompts itself, then save them as a JSON array or newline-delimited text file.
 
 ```bash
-python skills/feed-batch-video-agent/scripts/create_batch.py --prompt-file prompt.txt --count 6 --aspect-ratio 9:16 --logo-path "D:\assets\logo.png"
+python skills/feed-batch-video-agent/scripts/create_batch.py --prompt-file prompt.txt --prompts-file rewritten_prompts.json --count 6 --aspect-ratio 9:16 --logo-path "D:\assets\logo.png" --api-key "<USER_KVIDEO_KEY>"
+```
+
+No-cost integration test:
+
+```bash
+python skills/feed-batch-video-agent/scripts/create_batch.py --prompt-file prompt.txt --prompts-file rewritten_prompts.json --count 6 --aspect-ratio 9:16 --logo-path "D:\assets\logo.png" --api-key "test-key" --dry-run
 ```
 
 ```bash
 python skills/feed-batch-video-agent/scripts/watch_batch.py --batch-id 123 --max-wait 600
 ```
-
