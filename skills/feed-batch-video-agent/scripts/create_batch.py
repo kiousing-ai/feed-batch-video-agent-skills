@@ -14,8 +14,23 @@ def read_prompt(args) -> str:
     if args.prompt:
         return args.prompt
     if args.prompt_file:
-        return Path(args.prompt_file).read_text(encoding="utf-8")
+        return Path(args.prompt_file).read_text(encoding="utf-8-sig")
     raise SystemExit("Provide --prompt or --prompt-file.")
+
+
+def read_prompts_file(path: str) -> list[str]:
+    text = Path(path).read_text(encoding="utf-8-sig")
+    try:
+        parsed = json.loads(text)
+    except ValueError:
+        parsed = None
+    if isinstance(parsed, list):
+        prompts = [str(item).strip() for item in parsed if str(item).strip()]
+    else:
+        prompts = [line.strip() for line in text.splitlines() if line.strip()]
+    if not prompts:
+        raise SystemExit("Prompts file did not contain any prompts.")
+    return prompts
 
 
 def main() -> int:
@@ -23,22 +38,38 @@ def main() -> int:
     parser.add_argument("--base-url", default="http://127.0.0.1:8321")
     parser.add_argument("--prompt")
     parser.add_argument("--prompt-file")
+    parser.add_argument("--prompts-file", help="JSON array or newline-delimited rewritten prompts. If set, uses /batches/from-prompts.")
     parser.add_argument("--count", type=int, required=True)
     parser.add_argument("--aspect-ratio", default="9:16", choices=["9:16", "16:9"])
     parser.add_argument("--logo-path", required=True)
+    parser.add_argument("--api-key", default="", help="User's own KVideo API key for this batch.")
+    parser.add_argument("--dry-run", action="store_true", help="Create the batch and tasks without submitting video generation.")
     parser.add_argument("--timeout", type=float, default=30)
     args = parser.parse_args()
 
-    form = urllib.parse.urlencode(
-        {
+    if args.prompts_file:
+        prompts = read_prompts_file(args.prompts_file)
+        endpoint = "/batches/from-prompts"
+        form_data = {
+            "source_prompt": read_prompt(args),
+            "aspect_ratio": args.aspect_ratio,
+            "prompts": prompts,
+            "logo_path": args.logo_path,
+            "api_key": args.api_key,
+            "dry_run": "true" if args.dry_run else "false",
+        }
+    else:
+        endpoint = "/batches"
+        form_data = {
             "source_prompt": read_prompt(args),
             "requested_count": str(args.count),
             "aspect_ratio": args.aspect_ratio,
             "logo_path": args.logo_path,
+            "api_key": args.api_key,
         }
-    ).encode("utf-8")
+    form = urllib.parse.urlencode(form_data, doseq=True).encode("utf-8")
     request = urllib.request.Request(
-        args.base_url.rstrip("/") + "/batches",
+        args.base_url.rstrip("/") + endpoint,
         data=form,
         headers={"Content-Type": "application/x-www-form-urlencoded"},
         method="POST",
