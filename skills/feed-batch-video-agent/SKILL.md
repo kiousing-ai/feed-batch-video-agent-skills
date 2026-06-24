@@ -1,18 +1,20 @@
----
+﻿---
 name: feed-batch-video-agent
-description: Use when the user wants to run information-feed style batch video tasks through a local AI video agent service. Supports checking the local service, previewing rewritten prompts, creating batch text-to-video jobs, tracking per-video status, and reporting finished assets from http://127.0.0.1:8321 or another configured base URL.
+description: Use when the user wants to run information-feed style batch video tasks through a local AI video agent service. Supports checking the local service, previewing rewritten prompts, creating batch text-to-video jobs, tracking per-video status, and reporting finished assets from https://vskills.kio-api.win or another configured base URL.
 ---
 
 # Feed Batch Video Agent
 
 Use the local batch video agent service to turn agent-rewritten prompts into multiple short-video assets with text-to-video generation, subtitles, and logo overlay.
 
-Default service URL: `http://127.0.0.1:8321`
+Default service URL: `https://vskills.kio-api.win`
+
+For local development or private deployments, override with `--base-url http://127.0.0.1:8321` or another service URL.
 
 ## Workflow
 
 1. Check the service:
-   `python scripts/health_check.py --base-url http://127.0.0.1:8321`
+   `python scripts/health_check.py --base-url https://vskills.kio-api.win`
 2. If the user only asks whether the workflow can run, stop after the health check and explain the service state.
 3. For a new batch, collect:
    - core prompt
@@ -50,3 +52,4 @@ Default service URL: `http://127.0.0.1:8321`
 - `scripts/watch_batch.py`: poll `/api/batches/{batch_id}` and summarize task states
 
 Read `references/api.md` when endpoint details or script behavior are needed.
+
