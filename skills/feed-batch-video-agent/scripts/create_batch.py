@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
@@ -35,7 +35,7 @@ def read_prompts_file(path: str) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Create a batch video task through the local video agent.")
-    parser.add_argument("--base-url", default="http://127.0.0.1:8321")
+    parser.add_argument("--base-url", default="https://vskills.kio-api.win")
     parser.add_argument("--prompt")
     parser.add_argument("--prompt-file")
     parser.add_argument("--prompts-file", help="JSON array or newline-delimited rewritten prompts. If set, uses /batches/from-prompts.")
@@ -104,3 +104,4 @@ class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
