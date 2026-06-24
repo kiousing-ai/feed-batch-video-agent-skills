@@ -1,12 +1,14 @@
-# Feed Batch Video Agent Skills
+﻿# Feed Batch Video Agent Skills
 
 Agent skill for running information-feed style batch video production through a local AI video agent service.
 
 Default service URL:
 
 ```text
-http://127.0.0.1:8321
+https://vskills.kio-api.win
 ```
+
+For local development, pass `--base-url http://127.0.0.1:8321` to the scripts.
 
 The skill helps an AI agent:
 
@@ -127,3 +129,4 @@ python skills/feed-batch-video-agent/scripts/create_batch.py --prompt-file promp
 ```bash
 python skills/feed-batch-video-agent/scripts/watch_batch.py --batch-id 123 --max-wait 600
 ```
+
